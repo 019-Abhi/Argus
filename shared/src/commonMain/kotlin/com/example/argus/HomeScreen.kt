@@ -30,7 +30,7 @@ import kotlinx.serialization.Serializable
 object HomeRoute
 
 @Serializable
-data class EventPage()
+data class EventPage(val eventId: String)
 
 @Composable
 fun AppNavigation(){

@@ -25,6 +25,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import kotlinx.serialization.Serializable
 
+
 @Serializable
 object HomeRoute
 
@@ -37,7 +38,7 @@ fun AppNavigation(){
         navController = navController,
         startDestination = HomeRoute
     ) {
-        composable<HomeScreenRoute>{
+        composable<HomeRoute>{
             HomeScreen(
                 onEventClick = {
                     navController.navigate(EventPage)

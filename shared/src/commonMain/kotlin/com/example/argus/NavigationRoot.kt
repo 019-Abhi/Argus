@@ -32,6 +32,12 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
     )
     NavDisplay(
         backStack = backStack,
-        entryProvider {  }
+        entryProvider = { key ->
+            when(key) {
+                is Route.HomeRoute -> {
+
+                }
+            }
+        }
     )
 }

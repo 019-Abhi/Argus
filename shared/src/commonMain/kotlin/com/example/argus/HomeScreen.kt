@@ -19,36 +19,9 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.runtime.Composable
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
-import kotlinx.serialization.Serializable
-
-
-@Serializable
-object HomeRoute
-
-@Serializable
-data class EventPage(val eventId: String)
 
 @Composable
 fun AppNavigation(){
-
-    val navController = rememberNavController()
-
-    NavHost(
-        navController = navController,
-        startDestination = HomeRoute
-    ) {
-        composable<HomeRoute>{
-            HomeScreen(
-                onEventClick = {
-                    navController.navigate(EventPage)
-                },
-            )
-        }
-    }
 }
 
 @Composable

@@ -69,7 +69,8 @@ kotlin {
             implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.8.0")
 
             implementation(compose.materialIconsExtended)
-            implementation(libs.androidx.navigation.compose)
+            implementation(libs.navigation3.ui)
+            implementation(libs.androidx.lifecycle.viewmodelNavigation3)
             implementation(libs.kotlinx.serialization.json)
 
         }

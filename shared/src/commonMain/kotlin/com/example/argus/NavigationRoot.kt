@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.savedstate.serialization.SavedStateConfiguration
 import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entryProvider
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.subclass
 import kotlinx.serialization.modules.polymorphic
@@ -31,6 +32,6 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
     )
     NavDisplay(
         backStack = backStack,
-        entr
+        entryProvider {  }
     )
 }

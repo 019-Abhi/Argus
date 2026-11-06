@@ -7,8 +7,8 @@ import androidx.navigation3.runtime.NavKey
 sealed interface Routes : NavKey {
 
     @Serializable
-    data object HomeRoute : Routes
+    data object HomeScreen : Routes
 
     @Serializable
-    data class EventPage(val eventId: String) : Routes
+    data class EventDetails(val eventId: String) : Routes
 }

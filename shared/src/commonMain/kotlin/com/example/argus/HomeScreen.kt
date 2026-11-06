@@ -21,10 +21,6 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.runtime.Composable
 
 @Composable
-fun AppNavigation(){
-}
-
-@Composable
 fun HomeScreen(
     viewModel: HomeViewModel = viewModel(),
     onEventClick: (String) -> Unit

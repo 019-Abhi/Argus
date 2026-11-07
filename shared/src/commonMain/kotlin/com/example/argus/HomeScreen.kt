@@ -31,19 +31,7 @@ fun HomeScreen(
     MaterialTheme {
         Scaffold(
             topBar = {
-                TopAppBar(
-                    title = {
-                        Text("Argus")
-                    },
-                    actions = {
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(
-                                imageVector = Icons.Default.AccountCircle,
-                                contentDescription = "Profile"
-                            )
-                        }
-                    }
-                )
+                TopBar()
             }
         ) { innerPadding ->
             if (uiState.isLoading) {
@@ -108,23 +96,17 @@ fun EventCard(
 
 @Composable
 fun TopBar(){
-    MaterialTheme {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Text("Argus")
-                    },
-                    actions = {
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(
-                                imageVector = Icons.Default.AccountCircle,
-                                contentDescription = "Profile"
-                            )
-                        }
-                    }
+    TopAppBar(
+        title = {
+            Text("Argus")
+        },
+        actions = {
+            IconButton(onClick = { /*TODO*/ }) {
+                Icon(
+                    imageVector = Icons.Default.AccountCircle,
+                    contentDescription = "Profile"
                 )
             }
-        ) {}
-    }
+        }
+    )
 }

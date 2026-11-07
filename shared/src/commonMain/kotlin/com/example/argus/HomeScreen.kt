@@ -93,20 +93,3 @@ fun EventCard(
         }
     }
 }
-
-@Composable
-fun TopBar(){
-    TopAppBar(
-        title = {
-            Text("Argus")
-        },
-        actions = {
-            IconButton(onClick = { /*TODO*/ }) {
-                Icon(
-                    imageVector = Icons.Default.AccountCircle,
-                    contentDescription = "Profile"
-                )
-            }
-        }
-    )
-}

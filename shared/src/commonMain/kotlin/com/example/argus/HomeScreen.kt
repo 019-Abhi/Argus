@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 
 @Composable
@@ -57,6 +58,14 @@ fun HomeScreen(
                             }
                         )
                     }
+                    item{
+                        PlusTextButton(
+                            text = "Create Event",
+                            onClick = {
+                                // TODO
+                            },
+                        )
+                    }
                 }
             }
         }
@@ -91,5 +100,22 @@ fun EventCard(
                 modifier = Modifier.padding(top = 6.dp)
             )
         }
+    }
+}
+
+@Composable
+fun PlusTextButton(
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Button(
+        onClick = onClick,
+        modifier = modifier
+    ) {
+        Icon(
+            imageVector = Icons.Default.Add,
+            contentDescription = "Create Event"
+        )
     }
 }

@@ -22,7 +22,6 @@ fun EventDetails(eventId: String) {
             contentAlignment = Alignment.Center
         ) {
             Text("Event ID: $eventId")
-            Text("Loading event details...")
         }
     }
 }

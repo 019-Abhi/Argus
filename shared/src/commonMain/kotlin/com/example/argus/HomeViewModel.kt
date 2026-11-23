@@ -9,8 +9,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.datetime.LocalDate
-import kotlin.time.Clock
 
 class HomeViewModel: ViewModel() {
     private val _uiState = MutableStateFlow(HomeUiState(isLoading = true))
@@ -24,32 +22,9 @@ class HomeViewModel: ViewModel() {
         viewModelScope.launch {
             delay(500)
 
-            val fakeEvents = listOf(
-                Event(
-                    eventId = "1",
-                    eventName = "Movie night",
-                    eventDate = LocalDate(2026, 10, 3),
-                    destination = "PVR Cinemas, Kochi",
-                    eventHost = "Abhi",
-                    memberCount = 4,
-                    eventTime = Clock.System.now(),
-                    maxMembers = 6
-                ),
-                Event(
-                    eventId = "2",
-                    eventName = "Trip to Munnar",
-                    eventDate = LocalDate(2026, 10, 10),
-                    destination = "Munnar Tea Gardens",
-                    eventHost = "Abhi",
-                    memberCount = 3,
-                    eventTime = Clock.System.now(),
-                    maxMembers = 5
-                ),
-            )
-
             _uiState.update {
                 it.copy(
-                    events = fakeEvents,
+                    events = SampleEvents.all,
                     isLoading = false
                 )
             }

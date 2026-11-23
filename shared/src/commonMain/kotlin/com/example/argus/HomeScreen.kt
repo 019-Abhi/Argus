@@ -1,121 +1,215 @@
 package com.example.argus
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBar
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = viewModel(),
-    onEventClick: (String) -> Unit
+    onEventClick: (String) -> Unit,
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    MaterialTheme {
-        Scaffold(
-            topBar = {
-                TopBar()
-            }
-        ) { innerPadding ->
-            if (uiState.isLoading) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
-            } else {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding),
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    items(uiState.events) { event ->
-                        EventCard(
-                            event = event,
-                            onClick = {
-                                onEventClick(event.eventId)
-                            }
-                        )
-                    }
-                    item{
-                        PlusTextButton(
-                            text = "Create Event",
-                            onClick = {
-                                // TODO
-                            },
-                        )
-                    }
-                }
-            }
-        }
-    }
-}
-
-
-@Composable
-fun EventCard(
-    event: Event,
-    onClick: () -> Unit
-) {
-    Card(
+    Box(
         modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 3.dp
-        )
+            .fillMaxSize()
+            .background(
+                Brush.verticalGradient(
+                    colors = listOf(ArgusColors.BackgroundTop, ArgusColors.BackgroundBottom),
+                )
+            ),
     ) {
-        Column(
-            modifier = Modifier.padding(20.dp)
-        ) {
-            Text(
-                text = event.eventName,
-                style = MaterialTheme.typography.titleLarge
+        if (uiState.isLoading) {
+            CircularProgressIndicator(
+                color = ArgusColors.Accent,
+                modifier = Modifier.align(Alignment.Center),
             )
-
-            Text(
-                text = event.destination,
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(top = 6.dp)
+        } else {
+            EventDashboard(
+                events = uiState.events,
+                onEventClick = onEventClick,
+                onCreateEvent = { /* Creation flow will be implemented separately. */ },
             )
         }
     }
 }
 
 @Composable
-fun PlusTextButton(
-    text: String,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
+private fun EventDashboard(
+    events: List<Event>,
+    onEventClick: (String) -> Unit,
+    onCreateEvent: () -> Unit,
 ) {
-    Button(
-        onClick = onClick,
-        modifier = modifier
+    val pagerState = rememberPagerState(pageCount = { events.size })
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 24.dp, bottom = 18.dp),
+    ) {
+        HomeHeader(
+            modifier = Modifier.padding(horizontal = 22.dp),
+            onCreateEvent = onCreateEvent,
+        )
+
+        Text(
+            text = "${events.size} upcoming ${if (events.size == 1) "plan" else "plans"}",
+            color = ArgusColors.TextSecondary,
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(start = 24.dp, top = 6.dp, bottom = 18.dp),
+        )
+
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier.weight(1f),
+            contentPadding = PaddingValues(horizontal = 22.dp),
+            pageSpacing = 14.dp,
+            verticalAlignment = Alignment.Top,
+        ) { page ->
+            EventCard(
+                event = events[page],
+                onClick = { onEventClick(events[page].eventId) },
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
+
+        PagerIndicator(
+            pageCount = events.size,
+            currentPage = pagerState.currentPage,
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(top = 16.dp),
+        )
+    }
+}
+
+@Composable
+private fun HomeHeader(
+    onCreateEvent: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Column {
+            Text(
+                text = "Your events",
+                color = ArgusColors.TextPrimary,
+                style = MaterialTheme.typography.headlineLarge,
+                fontWeight = FontWeight.SemiBold,
+                letterSpacing = (-0.6).sp,
+            )
+            Text(
+                text = "Stay in sync, arrive together",
+                color = ArgusColors.TextSecondary,
+                style = MaterialTheme.typography.bodyMedium,
+            )
+        }
+
+        Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+            GlassIconButton(
+                icon = Icons.Default.Add,
+                contentDescription = "Create event",
+                onClick = onCreateEvent,
+                accent = true,
+            )
+            GlassIconButton(
+                icon = Icons.Default.AccountCircle,
+                contentDescription = "Profile",
+                onClick = { },
+            )
+        }
+    }
+}
+
+@Composable
+private fun GlassIconButton(
+    icon: ImageVector,
+    contentDescription: String,
+    onClick: () -> Unit,
+    accent: Boolean = false,
+) {
+    val background = if (accent) ArgusColors.Accent else ArgusColors.Glass
+    val tint = if (accent) Color(0xFF151927) else ArgusColors.TextPrimary
+
+    Box(
+        modifier = Modifier
+            .size(44.dp)
+            .clip(RoundedCornerShape(15.dp))
+            .background(background)
+            .border(1.dp, ArgusColors.Outline, RoundedCornerShape(15.dp))
+            .clickable(onClick = onClick),
+        contentAlignment = Alignment.Center,
     ) {
         Icon(
-            imageVector = Icons.Default.Add,
-            contentDescription = "Create Event"
+            imageVector = icon,
+            contentDescription = contentDescription,
+            tint = tint,
+            modifier = Modifier.size(21.dp),
         )
+    }
+}
+
+@Composable
+private fun PagerIndicator(
+    pageCount: Int,
+    currentPage: Int,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier
+            .clip(CircleShape)
+            .background(ArgusColors.Glass)
+            .border(1.dp, ArgusColors.Outline, CircleShape)
+            .padding(horizontal = 12.dp, vertical = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(7.dp),
+    ) {
+        repeat(pageCount) { page ->
+            Box(
+                modifier = Modifier
+                    .size(width = if (page == currentPage) 18.dp else 6.dp, height = 6.dp)
+                    .clip(CircleShape)
+                    .background(
+                        if (page == currentPage) ArgusColors.Accent
+                        else ArgusColors.TextSecondary.copy(alpha = 0.45f)
+                    ),
+            )
+        }
     }
 }

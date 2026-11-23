@@ -19,6 +19,7 @@ object SampleEvents {
             memberCount = 4,
             maxMembers = 6,
             description = "A relaxed Sunday movie with the group. Meet near the main lobby before showtime.",
+            imageUrl = MovieNightArtwork,
         ),
         Event(
             eventId = "2",
@@ -30,6 +31,7 @@ object SampleEvents {
             memberCount = 3,
             maxMembers = 5,
             description = "An early drive through the hills, with breakfast and photo stops along the way.",
+            imageUrl = MunnarTripArtwork,
         ),
         Event(
             eventId = "3",
@@ -41,6 +43,7 @@ object SampleEvents {
             memberCount = 2,
             maxMembers = 4,
             description = "A slow afternoon walk under the blossoms, ending with dinner near the park.",
+            imageUrl = CherryBlossomArtwork,
         ),
     )
 

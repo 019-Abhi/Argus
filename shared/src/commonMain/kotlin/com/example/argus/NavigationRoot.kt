@@ -32,27 +32,29 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
         },
         Routes.HomeScreen
     )
-    NavDisplay(
-        backStack = backStack,
-        entryProvider = { key ->
-            when(key) {
-                is Routes.HomeScreen -> {
-                    NavEntry(key) {
-                        HomeScreen(
-                            onEventClick = { eventId ->
-                                backStack.add(Routes.EventDetails(eventId))
-                            }
-                        )
+    ArgusTheme {
+        NavDisplay(
+            modifier = modifier,
+            backStack = backStack,
+            entryProvider = { key ->
+                when(key) {
+                    is Routes.HomeScreen -> {
+                        NavEntry(key) {
+                            HomeScreen(
+                                onEventClick = { eventId ->
+                                    backStack.add(Routes.EventDetails(eventId))
+                                }
+                            )
+                        }
                     }
-                }
-                is Routes.EventDetails -> {
-                    NavEntry(key) {
-                        EventDetails(eventId = key.eventId)
+                    is Routes.EventDetails -> {
+                        NavEntry(key) {
+                            EventDetails(eventId = key.eventId)
+                        }
                     }
+                    else -> error("Unknown NavKey")
                 }
-                else -> error("Unknown NavKey")
             }
-
-        }
-    )
+        )
+    }
 }

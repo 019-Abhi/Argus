@@ -1,5 +1,7 @@
 package com.example.argus
 
+import argus.shared.generated.resources.Res
+import argus.shared.generated.resources.ephesis
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -31,11 +33,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import org.jetbrains.compose.resources.Font
+
 
 @Composable
 fun HomeScreen(
@@ -79,20 +86,21 @@ private fun EventDashboard(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 24.dp, bottom = 18.dp),
     ) {
-        HomeHeader(
-            modifier = Modifier.padding(horizontal = 22.dp),
-            onCreateEvent = onCreateEvent,
-        )
+        TopBar()
 
         Text(
-            text = "${events.size} upcoming ${if (events.size == 1) "plan" else "plans"}",
+            text = "You have ${events.size} upcoming ${if (events.size == 1) "plan" else "plans"}",
             color = ArgusColors.TextSecondary,
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(start = 24.dp, top = 6.dp, bottom = 18.dp),
+            fontFamily = FontFamily(Font(Res.font.ephesis)),
+            fontWeight = FontWeight.Bold,
+            fontStyle = FontStyle.Italic,
+            fontSize = 28.sp,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 0.dp, vertical = 30.dp)
         )
-
         HorizontalPager(
             state = pagerState,
             modifier = Modifier.weight(1f),

@@ -108,7 +108,7 @@ private fun EventDashboard(
             currentPage = pagerState.currentPage,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(top = 16.dp),
+                .padding(bottom = 60.dp),
         )
     }
 }

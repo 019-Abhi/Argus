@@ -87,14 +87,13 @@ private fun EventDashboard(
         modifier = Modifier
             .fillMaxSize()
     ) {
+
         TopBar()
 
         Text(
             text = "You have ${events.size} upcoming ${if (events.size == 1) "plan" else "plans"}",
             color = ArgusColors.TextSecondary,
             fontFamily = FontFamily(Font(Res.font.ephesis)),
-            fontWeight = FontWeight.Bold,
-            fontStyle = FontStyle.Italic,
             fontSize = 28.sp,
             textAlign = TextAlign.Center,
             modifier = Modifier
@@ -121,75 +120,6 @@ private fun EventDashboard(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(top = 16.dp),
-        )
-    }
-}
-
-@Composable
-private fun HomeHeader(
-    onCreateEvent: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Row(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Column {
-            Text(
-                text = "Your events",
-                color = ArgusColors.TextPrimary,
-                style = MaterialTheme.typography.headlineLarge,
-                fontWeight = FontWeight.SemiBold,
-                letterSpacing = (-0.6).sp,
-            )
-            Text(
-                text = "Stay in sync, arrive together",
-                color = ArgusColors.TextSecondary,
-                style = MaterialTheme.typography.bodyMedium,
-            )
-        }
-
-        Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            GlassIconButton(
-                icon = Icons.Default.Add,
-                contentDescription = "Create event",
-                onClick = onCreateEvent,
-                accent = true,
-            )
-            GlassIconButton(
-                icon = Icons.Default.AccountCircle,
-                contentDescription = "Profile",
-                onClick = { },
-            )
-        }
-    }
-}
-
-@Composable
-private fun GlassIconButton(
-    icon: ImageVector,
-    contentDescription: String,
-    onClick: () -> Unit,
-    accent: Boolean = false,
-) {
-    val background = if (accent) ArgusColors.Accent else ArgusColors.Glass
-    val tint = if (accent) Color(0xFF151927) else ArgusColors.TextPrimary
-
-    Box(
-        modifier = Modifier
-            .size(44.dp)
-            .clip(RoundedCornerShape(15.dp))
-            .background(background)
-            .border(1.dp, ArgusColors.Outline, RoundedCornerShape(15.dp))
-            .clickable(onClick = onClick),
-        contentAlignment = Alignment.Center,
-    ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = contentDescription,
-            tint = tint,
-            modifier = Modifier.size(21.dp),
         )
     }
 }

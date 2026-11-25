@@ -141,7 +141,7 @@ private fun PagerIndicator(
                     .background(
                         if (page == currentPage) ArgusColors.Accent
                         else ArgusColors.TextSecondary.copy(alpha = 0.45f)
-                    )
+                    ),
             )
         }
     }

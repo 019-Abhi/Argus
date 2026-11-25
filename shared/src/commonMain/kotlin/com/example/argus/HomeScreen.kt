@@ -103,13 +103,12 @@ private fun EventDashboard(
             )
         }
 
-        PagerIndicator(
-            pageCount = events.size,
-            currentPage = pagerState.currentPage,
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(bottom = 60.dp),
-        )
+        BrandedPagerFooter {
+            PagerIndicator(
+                pageCount = events.size,
+                currentPage = pagerState.currentPage,
+            )
+        }
     }
 }
 

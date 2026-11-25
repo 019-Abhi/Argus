@@ -1,9 +1,11 @@
 package com.example.argus
 
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -13,19 +15,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun TopBar() {
+fun TopBar(
+    onProfileClick: () -> Unit = {},
+    onCreateEvent: () -> Unit = {},
+) {
     TopAppBar(
-        title = {
-            Text("Argus")
-        },
-        actions = {
-            IconButton(onClick = { /* TODO */ }) {
+        title = {},
+        navigationIcon = {
+            IconButton(onClick = onProfileClick) {
                 Icon(
                     imageVector = Icons.Default.AccountCircle,
                     contentDescription = "Profile"
                 )
             }
         },
-        windowInsets = WindowInsets(0.dp, 50.dp, 0.dp, 0.dp)
+        actions = {
+            TextButton(onClick = onCreateEvent) {
+                Icon(imageVector = Icons.Default.Add, contentDescription = null)
+                Spacer(Modifier.width(6.dp))
+                Text("Create event")
+            }
+        },
     )
 }

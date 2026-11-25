@@ -20,6 +20,7 @@ fun TopBar(
     onCreateEvent: () -> Unit = {},
 ) {
     TopAppBar(
+        expandedHeight = 50.dp,
         title = {},
         navigationIcon = {
             IconButton(onClick = onProfileClick) {

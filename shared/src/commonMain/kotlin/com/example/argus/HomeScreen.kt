@@ -37,6 +37,8 @@ import org.jetbrains.compose.resources.Font
 fun HomeScreen(
     viewModel: HomeViewModel = viewModel(),
     onEventClick: (String) -> Unit,
+    onProfileClick: () -> Unit = {},
+    onCreateEvent: () -> Unit = {},
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -58,7 +60,8 @@ fun HomeScreen(
             EventDashboard(
                 events = uiState.events,
                 onEventClick = onEventClick,
-                onCreateEvent = { /* Creation flow will be implemented separately. */ },
+                onProfileClick = onProfileClick,
+                onCreateEvent = onCreateEvent,
             )
         }
     }
@@ -68,6 +71,7 @@ fun HomeScreen(
 private fun EventDashboard(
     events: List<Event>,
     onEventClick: (String) -> Unit,
+    onProfileClick: () -> Unit,
     onCreateEvent: () -> Unit,
 ) {
     val pagerState = rememberPagerState(pageCount = { events.size })
@@ -77,7 +81,10 @@ private fun EventDashboard(
             .fillMaxSize()
     ) {
 
-        TopBar()
+        TopBar(
+            onProfileClick = onProfileClick,
+            onCreateEvent = onCreateEvent,
+        )
 
         Text(
             text = "You have ${events.size} upcoming ${if (events.size == 1) "plan" else "plans"}",
